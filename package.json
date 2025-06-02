@@ -3,7 +3,8 @@
   "displayName": "Open SourceTree",
   "description": "在SourceTree中快速打开当前项目",
   "version": "0.0.1",
-  "publisher": "caffe latte",
+  "publisher": "caffe-latte",
+  "icon": "images/icon.png",
   "repository": {
     "type": "git",
     "url": "https://github.com/charles-sudo/vscode-open-sourcetree"
