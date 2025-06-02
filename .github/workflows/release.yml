@@ -7,6 +7,12 @@ on:
     tags:
       - "v*"
 
+# 添加权限配置解决 "Resource not accessible by integration" 错误
+permissions:
+  contents: write
+  # issues: write
+  # pull-requests: write
+
 jobs:
   build-and-release:
     runs-on: ubuntu-latest
@@ -44,26 +50,17 @@ jobs:
           echo "VSIX_FILE=$VSIX_FILE" >> $GITHUB_OUTPUT
           echo "找到 VSIX 文件: $VSIX_FILE"
 
-      - name: Create Release
-        id: create_release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      # 使用现代化的action替换过时的create-release和upload-release-asset
+      - name: 创建 Release 并上传构建产物
+        uses: softprops/action-gh-release@v1
         with:
-          tag_name: ${{ github.ref }}
-          release_name: Release ${{ github.ref }}
+          files: ${{ steps.find_vsix.outputs.VSIX_FILE }}
+          name: Release ${{ steps.version.outputs.VERSION }}
+          tag_name: ${{ steps.version.outputs.VERSION }}
           draft: false
           prerelease: false
-
-      - name: 上传构建产物到 Release
-        uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps
-          asset_path: ${{ steps.find_vsix.outputs.VSIX_FILE }}
-          asset_name: open-sourcetree-${{ steps.version.outputs.VERSION }}.vsix
-          asset_content_type: application/zip
 
       - name: 创建构建摘要
         run: |
