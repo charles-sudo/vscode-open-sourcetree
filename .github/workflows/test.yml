@@ -1,0 +1,63 @@
+name: Test
+
+on:
+  push:
+    branches: [ main, master, develop ]
+  pull_request:
+    branches: [ main, master, develop ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    
+    strategy:
+      matrix:
+        node-version: [16, 18, 20]
+        
+    steps:
+    - name: 检出代码
+      uses: actions/checkout@v4
+      
+    - name: 设置 Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+        
+    - name: 安装依赖
+      run: npm ci
+      
+    - name: 编译检查
+      run: npm run compile
+      
+    - name: 复制国际化文件
+      run: npm run copy-i18n
+      
+    - name: 打包测试
+      run: npm run package
+      
+    - name: 验证生成的文件
+      run: |
+        echo "检查编译输出..."
+        ls -la out/
+        echo "检查 VSIX 文件..."
+        ls -la *.vsix
+        
+  lint:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: 检出代码
+      uses: actions/checkout@v4
+      
+    - name: 设置 Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+        
+    - name: 安装依赖
+      run: npm ci
+      
+    - name: TypeScript 类型检查
+      run: npx tsc --noEmit 
