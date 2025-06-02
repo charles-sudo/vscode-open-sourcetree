@@ -1,0 +1,19 @@
+{
+  "extension": {
+    "activated": "Open SourceTree 拡張機能が有効になりました",
+    "deactivated": "Open SourceTree 拡張機能が無効になりました"
+  },
+  "statusBar": {
+    "tooltip": "SourceTreeで開く"
+  },
+  "errors": {
+    "noWorkspace": "開いているワークスペースフォルダがありません",
+    "unsupportedOS": "この機能は現在のオペレーティングシステムではサポートされていません",
+    "cannotOpen": "SourceTreeを開けません: {0}"
+  },
+  "ui": {
+    "pickPlaceholder": "SourceTreeで開くプロジェクトを選択",
+    "projectPath": "プロジェクトパス: {0}",
+    "openingProject": "SourceTreeでプロジェクトを開いています: {0}"
+  }
+} 

@@ -1,0 +1,19 @@
+{
+  "extension": {
+    "activated": "Open SourceTree 插件已激活",
+    "deactivated": "Open SourceTree 插件已停用"
+  },
+  "statusBar": {
+    "tooltip": "在SourceTree中打开"
+  },
+  "errors": {
+    "noWorkspace": "没有打开的工作区文件夹",
+    "unsupportedOS": "当前操作系统不支持此功能",
+    "cannotOpen": "无法打开SourceTree: {0}"
+  },
+  "ui": {
+    "pickPlaceholder": "选择要在SourceTree中打开的项目",
+    "projectPath": "项目路径: {0}",
+    "openingProject": "正在SourceTree中打开项目: {0}"
+  }
+} 

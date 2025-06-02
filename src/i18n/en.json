@@ -1,0 +1,19 @@
+{
+  "extension": {
+    "activated": "Open SourceTree extension activated",
+    "deactivated": "Open SourceTree extension deactivated"
+  },
+  "statusBar": {
+    "tooltip": "Open in SourceTree"
+  },
+  "errors": {
+    "noWorkspace": "No workspace folders are open",
+    "unsupportedOS": "This feature is not supported on your operating system",
+    "cannotOpen": "Unable to open SourceTree: {0}"
+  },
+  "ui": {
+    "pickPlaceholder": "Select a project to open in SourceTree",
+    "projectPath": "Project path: {0}",
+    "openingProject": "Opening project in SourceTree: {0}"
+  }
+} 

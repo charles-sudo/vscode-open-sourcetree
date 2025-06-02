@@ -1,0 +1,111 @@
+{
+  "name": "open-sourcetree",
+  "displayName": "Open SourceTree",
+  "description": "在SourceTree中快速打开当前项目",
+  "version": "0.0.1",
+  "publisher": "your-publisher-name",
+  "engines": {
+    "vscode": "^1.74.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "*"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "open-sourcetree.openInSourceTree",
+        "title": "%command.openInSourceTree%",
+        "icon": "$(source-control)"
+      },
+      {
+        "command": "open-sourcetree.openInSourceTreeFromContextMenu",
+        "title": "%command.openInSourceTree%",
+        "icon": "$(repo)"
+      },
+      {
+        "command": "open-sourcetree.openInSourceTreeFromExplorer",
+        "title": "%command.openInSourceTree%",
+        "icon": "$(repo)"
+      }
+    ],
+    "menus": {
+      "editor/title": [
+        {
+          "command": "open-sourcetree.openInSourceTree",
+          "when": "true",
+          "group": "navigation"
+        }
+      ],
+      "editor/context": [
+        {
+          "command": "open-sourcetree.openInSourceTreeFromContextMenu",
+          "when": "editorFocus",
+          "group": "navigation"
+        }
+      ],
+      "explorer/context": [
+        {
+          "command": "open-sourcetree.openInSourceTreeFromExplorer",
+          "when": "explorerViewletVisible",
+          "group": "navigation"
+        }
+      ],
+      "commandPalette": [
+        {
+          "command": "open-sourcetree.openInSourceTree",
+          "when": "true"
+        },
+        {
+          "command": "open-sourcetree.openInSourceTreeFromContextMenu",
+          "when": "false"
+        },
+        {
+          "command": "open-sourcetree.openInSourceTreeFromExplorer",
+          "when": "false"
+        }
+      ]
+    },
+    "keybindings": [
+      {
+        "command": "open-sourcetree.openInSourceTree",
+        "key": "ctrl+alt+s",
+        "mac": "cmd+alt+s",
+        "when": "editorFocus || explorerViewletVisible"
+      }
+    ],
+    "configuration": {
+      "title": "Open SourceTree",
+      "properties": {
+        "open-sourcetree.language": {
+          "type": "string",
+          "default": "",
+          "enum": ["", "en", "zh-cn", "ja"],
+          "enumDescriptions": [
+            "使用VSCode界面语言 (推荐)",
+            "English",
+            "简体中文",
+            "日本語"
+          ],
+          "description": "插件界面语言，留空表示使用VSCode界面语言"
+        }
+      }
+    }
+  },
+  "scripts": {
+    "compile": "tsc -p ./",
+    "vscode:prepublish": "npm run compile",
+    "watch": "tsc -watch -p ./",
+    "package": "vsce package",
+    "copy-i18n": "mkdir -p out/i18n && cp -r src/i18n/*.json out/i18n/"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.74.0",
+    "@types/node": "16.x",
+    "typescript": "^4.9.4",
+    "@vscode/vsce": "^2.22.0"
+  }
+} 

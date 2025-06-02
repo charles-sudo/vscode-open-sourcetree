@@ -1,0 +1,39 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"type": "npm",
+			"script": "watch",
+			"group": "build",
+			"presentation": {
+				"reveal": "never"
+			},
+			"isBackground": true,
+			"problemMatcher": "$tsc-watch"
+		},
+		{
+			"label": "compile",
+			"type": "npm",
+			"script": "compile",
+			"group": "build",
+			"presentation": {
+				"reveal": "silent"
+			},
+			"problemMatcher": "$tsc"
+		},
+		{
+			"label": "copy-i18n",
+			"type": "npm",
+			"script": "copy-i18n",
+			"presentation": {
+				"reveal": "silent"
+			},
+			"group": "build"
+		},
+		{
+			"label": "build-all",
+			"dependsOn": ["compile", "copy-i18n"],
+			"dependsOrder": "sequence"
+		}
+	]
+}
