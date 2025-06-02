@@ -5,63 +5,63 @@ on:
     types: [created]
   push:
     tags:
-      - 'v*'
+      - "v*"
 
 jobs:
   build-and-release:
     runs-on: ubuntu-latest
-    
+
     steps:
-    - name: 检出代码
-      uses: actions/checkout@v4
-      
-    - name: 设置 Node.js
-      uses: actions/setup-node@v4
-      with:
-        node-version: '18'
-        cache: 'npm'
-        
-    - name: 安装依赖
-      run: npm ci
-      
-    - name: 编译项目
-      run: npm run compile
-      
-    - name: 复制国际化文件
-      run: npm run copy-i18n
-      
-    - name: 打包扩展
-      run: npm run package
-      
-    - name: 获取版本号
-      id: version
-      run: echo "VERSION=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
-      
-    - name: 查找生成的 VSIX 文件
-      id: find_vsix
-      run: |
-        VSIX_FILE=$(find . -name "*.vsix" | head -1)
-        echo "VSIX_FILE=$VSIX_FILE" >> $GITHUB_OUTPUT
-        echo "找到 VSIX 文件: $VSIX_FILE"
-        
-    - name: 上传构建产物到 Release
-      uses: actions/upload-release-asset@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        upload_url: ${{ github.event.release.upload_url }}
-        asset_path: ${{ steps.find_vsix.outputs.VSIX_FILE }}
-        asset_name: open-sourcetree-${{ steps.version.outputs.VERSION }}.vsix
-        asset_content_type: application/zip
-        
-    - name: 创建构建摘要
-      run: |
-        echo "## 构建完成 ✅" >> $GITHUB_STEP_SUMMARY
-        echo "" >> $GITHUB_STEP_SUMMARY
-        echo "### 构建信息" >> $GITHUB_STEP_SUMMARY
-        echo "- **版本**: ${{ steps.version.outputs.VERSION }}" >> $GITHUB_STEP_SUMMARY
-        echo "- **构建时间**: $(date)" >> $GITHUB_STEP_SUMMARY
-        echo "- **VSIX 文件**: ${{ steps.find_vsix.outputs.VSIX_FILE }}" >> $GITHUB_STEP_SUMMARY
-        echo "" >> $GITHUB_STEP_SUMMARY
-        echo "### 下载地址" >> $GITHUB_STEP_SUMMARY
-        echo "构建产物已自动上传到 Release Assets 中，可以直接下载使用。" >> $GITHUB_STEP_SUMMARY 
+      - name: 检出代码
+        uses: actions/checkout@v4
+
+      - name: 设置 Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+
+      - name: 安装依赖
+        run: npm ci
+
+      - name: 编译项目
+        run: npm run compile
+
+      - name: 复制国际化文件
+        run: npm run copy-i18n
+
+      - name: 打包扩展
+        run: npm run package
+
+      - name: 获取版本号
+        id: version
+        run: echo "VERSION=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
+
+      - name: 查找生成的 VSIX 文件
+        id: find_vsix
+        run: |
+          VSIX_FILE=$(find . -name "*.vsix" | head -1)
+          echo "VSIX_FILE=$VSIX_FILE" >> $GITHUB_OUTPUT
+          echo "找到 VSIX 文件: $VSIX_FILE"
+
+      - name: 上传构建产物到 Release
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ github.event.release.upload_url }}
+          asset_path: ${{ steps.find_vsix.outputs.VSIX_FILE }}
+          asset_name: open-sourcetree-${{ steps.version.outputs.VERSION }}.vsix
+          asset_content_type: application/zip
+
+      - name: 创建构建摘要
+        run: |
+          echo "## 构建完成 ✅" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### 构建信息" >> $GITHUB_STEP_SUMMARY
+          echo "- **版本**: ${{ steps.version.outputs.VERSION }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **构建时间**: $(date)" >> $GITHUB_STEP_SUMMARY
+          echo "- **VSIX 文件**: ${{ steps.find_vsix.outputs.VSIX_FILE }}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### 下载地址" >> $GITHUB_STEP_SUMMARY
+          echo "构建产物已自动上传到 Release Assets 中，可以直接下载使用。" >> $GITHUB_STEP_SUMMARY
