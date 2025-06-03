@@ -7,6 +7,7 @@ tsconfig.json
 # TypeScript 编译配置
 *.ts
 !out/**/*.js
+out/**/*.d.ts
 
 # 依赖和开发文件
 node_modules/**
@@ -29,7 +30,7 @@ Thumbs.db
 # 文档和说明（可选，根据需要调整）
 README.md
 CI_CD_README.md
-LICENSE.txt
+LICENSE
 
 # Git 相关
 .git/**
