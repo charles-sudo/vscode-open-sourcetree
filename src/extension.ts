@@ -59,15 +59,28 @@ export function activate(context: vscode.ExtensionContext) {
     "open-sourcetree.openInSourceTreeFromExplorer",
     (uri) => {
       if (uri && uri.fsPath) {
-        // 获取文件所在的目录
-        const folderPath =
-          uri.scheme === "file"
-            ? fs.statSync(uri.fsPath).isDirectory()
-              ? uri.fsPath
-              : path.dirname(uri.fsPath)
-            : uri.fsPath;
-
-        openSourceTreeForPath(folderPath, path.basename(folderPath));
+        const workspaceFolder = vscode.workspace.getWorkspaceFolder(uri);
+        if (workspaceFolder) {
+          openSourceTreeForPath(
+            workspaceFolder.uri.fsPath,
+            workspaceFolder.name
+          );
+        } else {
+          // 如果找不到工作区文件夹，尝试获取文件所在目录，这是一种降级处理
+          // 或者提示用户此文件不在任何工作区中
+          const folderPath =
+            uri.scheme === "file"
+              ? fs.statSync(uri.fsPath).isDirectory()
+                ? uri.fsPath
+                : path.dirname(uri.fsPath)
+              : uri.fsPath;
+          // 如果仍然无法确定项目，则调用默认的 openInSourceTree
+          if (folderPath) {
+            openSourceTreeForPath(folderPath, path.basename(folderPath));
+          } else {
+            openInSourceTree();
+          }
+        }
       } else {
         openInSourceTree();
       }
